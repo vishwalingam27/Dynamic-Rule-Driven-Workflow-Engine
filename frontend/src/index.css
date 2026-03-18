@@ -1,0 +1,237 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Ultra-modern HSL Palette */
+  --primary-h: 245;
+  --primary-s: 82%;
+  --primary-l: 67%;
+  
+  --primary: hsl(var(--primary-h), var(--primary-s), var(--primary-l));
+  --primary-glow: hsla(var(--primary-h), var(--primary-s), var(--primary-l), 0.5);
+  
+  --bg-deep: 226 43% 4%;
+  --card-base: 224 47% 7%;
+  
+  --accent-emerald: 161 94% 30%;
+  --accent-rose: 343 89% 60%;
+  --accent-indigo: 239 84% 67%;
+  
+  --border-white: hsla(0, 0%, 100%, 0.08);
+  --border-active: hsla(var(--primary-h), var(--primary-s), var(--primary-l), 0.3);
+}
+
+body {
+  background-color: #020617;
+  color: #f1f5f9; /* slate-100 */
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background-image: 
+    radial-gradient(circle at 0% 0%, hsla(245, 80%, 20%, 0.15) 0%, transparent 50%),
+    radial-gradient(circle at 100% 0%, hsla(330, 80%, 20%, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 50% 100%, hsla(245, 80%, 15%, 0.05) 0%, transparent 50%);
+  background-attachment: fixed;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4, .font-heading {
+  font-family: 'Outfit', sans-serif;
+  letter-spacing: -0.02em;
+}
+
+code, .font-mono {
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* God-Level Utilities */
+.glass-morphism {
+  background: hsla(var(--card-base), 0.6);
+  backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid var(--border-white);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+}
+
+.glass-card-premium {
+  position: relative;
+  overflow: hidden;
+  transition: all 500ms cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 1rem; /* 16px / rounded-2xl */
+  background: linear-gradient(135deg, hsla(0, 0%, 100%, 0.05) 0%, hsla(0, 0%, 100%, 0) 100%);
+  background-color: hsla(var(--card-base), 0.6);
+  backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid var(--border-white);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+}
+
+.glass-card-premium::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, hsla(0, 0%, 100%, 0.05), transparent);
+  transition: 0.5s;
+}
+
+.glass-card-premium:hover::before {
+  left: 100%;
+}
+
+.glass-card-premium:hover {
+  transform: translateY(-4px);
+  border-color: var(--border-active);
+  box-shadow: 0 20px 40px -20px hsla(var(--primary-h), var(--primary-s), var(--primary-l), 0.3);
+}
+
+.btn-premium {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.5rem;
+  font-weight: 600;
+  overflow: hidden;
+  transition: all 500ms cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 0.75rem; /* rounded-xl */
+  background-color: rgba(79, 70, 229, 0.1); /* indigo-600/10 approx */
+  border: 1px solid rgba(99, 102, 241, 0.3); /* indigo-500/30 */
+  color: #a5b4fc; /* indigo-300 */
+}
+
+.btn-premium::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: #4f46e5; /* indigo-600 */
+  transform: translateY(100%);
+  transition: transform 500ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-premium:hover::before {
+  transform: translateY(0);
+}
+
+.btn-premium:hover {
+  color: white;
+}
+
+.btn-premium span {
+  position: relative;
+}
+
+.text-gradient {
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  background-image: linear-gradient(to right, #818cf8, #a78bfa, #e879f9); /* indigo-400, violet-400, fuchsia-400 */
+}
+
+.input-field, .neo-input {
+  background-color: rgba(2, 6, 23, 0.4); /* slate-950/40 */
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 0.75rem;
+  padding: 0.75rem 1rem;
+  outline: none;
+  transition: all 300ms;
+  font-size: 0.875rem;
+  color: white;
+  width: 100%;
+  display: block;
+}
+
+.input-field:focus, .neo-input:focus {
+  border-color: rgba(99, 102, 241, 0.5);
+  box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+}
+
+/* Global Input Overrides to prevent browser-default white backgrounds */
+input, select, textarea {
+  background-color: rgba(2, 6, 23, 0.6) !important;
+  color: white !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+option {
+  background-color: #020617;
+  color: white;
+}
+
+/* Animations */
+@keyframes float {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-10px) rotate(1deg); }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.3; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(1.05); }
+}
+
+.pulse-glow {
+  animation: pulse-glow 4s ease-in-out infinite;
+}
+
+.animate-in {
+  animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: #020617; /* slate-950 */
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #1e293b; /* slate-800 */
+  border-radius: 9999px;
+  border: 2px solid #020617;
+  transition: background-color 300ms;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #334155; /* slate-700 */
+}
+
+/* Card States */
+.status-pill {
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border: 1px solid transparent;
+  backdrop-filter: blur(12px);
+}
+
+.status-active {
+  background-color: rgba(16, 185, 129, 0.1);
+  color: #34d399;
+  border-color: rgba(16, 185, 129, 0.2);
+  box-shadow: 0 0 15px -3px rgba(16, 185, 129, 0.3);
+}
+
+.status-idle {
+  background-color: rgba(30, 41, 59, 0.5);
+  color: #64748b;
+  border-color: rgba(51, 65, 85, 0.5);
+}

@@ -1,0 +1,40 @@
+{
+  "execution": {
+    "id": "6f9c2dd9-7136-474f-84c0-196c503a033f",
+    "workflowId": "a1dcdbbe-dc1c-4f8b-a3a8-764d82ebf143",
+    "workflowVersion": "1.0",
+    "status": "COMPLETED",
+    "data": "{\"loanAmount\": 600000, \"creditScore\": 800}",
+    "currentStepId": null,
+    "retries": 0,
+    "triggeredBy": "Test",
+    "startedAt": "2026-03-18T11:01:07.358941",
+    "endedAt": "2026-03-18T11:01:07.413026"
+  },
+  "logs": [
+    {
+      "id": 362,
+      "executionId": "6f9c2dd9-7136-474f-84c0-196c503a033f",
+      "stepName": "Step1",
+      "stepType": "TASK",
+      "evaluatedRules": "Rule: creditScore > 750 -> true\n",
+      "selectedNextStep": "27acb067-70eb-4f00-8d1f-cb778a1bd697",
+      "status": "SUCCESS",
+      "errorMessage": null,
+      "startedAt": "2026-03-18T11:01:07.379716",
+      "endedAt": "2026-03-18T11:01:07.383974"
+    },
+    {
+      "id": 363,
+      "executionId": "6f9c2dd9-7136-474f-84c0-196c503a033f",
+      "stepName": "Step2",
+      "stepType": "APPROVAL",
+      "evaluatedRules": "Rule: loanAmount < 500000 -> false\nRule: loanAmount >= 500000 -> true\n",
+      "selectedNextStep": null,
+      "status": "SUCCESS",
+      "errorMessage": null,
+      "startedAt": "2026-03-18T11:01:07.406591",
+      "endedAt": "2026-03-18T11:01:07.411491"
+    }
+  ]
+}
