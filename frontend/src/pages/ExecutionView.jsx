@@ -12,6 +12,8 @@ const ExecutionView = () => {
   const [logs, setLogs] = useState([]);
   const [allRules, setAllRules] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [approvalReason, setApprovalReason] = useState('');
+  const [submittingApproval, setSubmittingApproval] = useState(false);
   const logContainerRef = React.useRef(null);
 
   useEffect(() => {
@@ -108,6 +110,20 @@ const ExecutionView = () => {
     }
   };
 
+  const handleApprovalAction = async (isApproved) => {
+    try {
+      setSubmittingApproval(true);
+      const action = isApproved ? 'approve' : 'reject';
+      await api.post(`/executions/${executionId}/${action}`, { reason: approvalReason });
+      setApprovalReason('');
+      pollStatus(executionId);
+    } catch (error) {
+       console.error("Error submitting approval action", error);
+    } finally {
+       setSubmittingApproval(false);
+    }
+  };
+
   const pollStatus = (execId) => {
     const interval = setInterval(async () => {
       try {
@@ -119,7 +135,7 @@ const ExecutionView = () => {
           setLogs(logsRes.data);
         }
 
-        if (['COMPLETED', 'FAILED', 'CANCELED'].includes(execRes.data.status)) {
+        if (['COMPLETED', 'FAILED', 'CANCELED', 'WAITING_FOR_APPROVAL'].includes(execRes.data.status)) {
           clearInterval(interval);
         }
       } catch (e) {
@@ -152,7 +168,7 @@ const ExecutionView = () => {
   return (
     <div className="animate-in space-y-12 max-w-7xl mx-auto px-8">
       <header className="flex flex-col md:flex-row md:items-center justify-between gap-6 relative">
-        <div className="absolute -top-20 -left-20 w-64 h-64 bg-indigo-500/10 blur-[100px] -z-10 animate-pulse" />
+        <div className="absolute -top-20 -left-20 w-64 h-64 bg-indigo-500/10 blur-[100px] -z-10 animate-pulse pointer-events-none" />
         <div className="space-y-4">
           <div className="flex items-center gap-3 text-slate-500 text-[10px] font-black uppercase tracking-[0.3em]">
             <Link to="/" className="hover:text-indigo-400 transition-colors">Infrastructure</Link>
@@ -172,7 +188,7 @@ const ExecutionView = () => {
              <div className="flex flex-col items-end">
                <span className="text-[10px] font-black text-slate-500 uppercase tracking-[0.3em] mb-1">Global Status</span>
                <div className="flex items-center gap-3">
-                 <div className={`w-2 h-2 rounded-full ${execution.status === 'IN_PROGRESS' ? 'bg-indigo-500 animate-pulse shadow-[0_0_10px_rgba(99,102,241,0.5)]' : execution.status === 'COMPLETED' ? 'bg-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.5)]' : 'bg-rose-500 shadow-[0_0_10px_rgba(244,63,94,0.5)]'}`} />
+                 <div className={`w-2 h-2 rounded-full ${['IN_PROGRESS', 'WAITING_FOR_APPROVAL'].includes(execution.status) ? 'bg-indigo-500 animate-pulse shadow-[0_0_10px_rgba(99,102,241,0.5)]' : execution.status === 'COMPLETED' ? 'bg-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.5)]' : 'bg-rose-500 shadow-[0_0_10px_rgba(244,63,94,0.5)]'}`} />
                  <span className="font-black text-sm tracking-widest uppercase text-white">{execution.status}</span>
                </div>
              </div>
@@ -210,18 +226,18 @@ const ExecutionView = () => {
               <button 
                 onClick={handleExecute}
                 className="btn-premium w-full py-5 shadow-2xl shadow-indigo-500/20 disabled:opacity-50 disabled:grayscale transition-all duration-500"
-                disabled={(execution && execution.status === 'IN_PROGRESS') || !isValidJson(inputData)}
+                disabled={(execution && ['IN_PROGRESS', 'WAITING_FOR_APPROVAL'].includes(execution.status)) || !isValidJson(inputData)}
               >
                 <span className="flex items-center gap-3 uppercase tracking-[0.2em] text-xs font-black">
-                  <Activity size={20} className={execution?.status === 'IN_PROGRESS' ? 'animate-spin' : ''} />
-                  {execution?.status === 'IN_PROGRESS' ? 'Processing Engine...' : 'Initialize Logic Flow'}
+                  <Activity size={20} className={execution?.status === 'IN_PROGRESS' || execution?.status === 'WAITING_FOR_APPROVAL' ? 'animate-spin' : ''} />
+                  {execution?.status === 'IN_PROGRESS' || execution?.status === 'WAITING_FOR_APPROVAL' ? 'Processing Engine...' : 'Initialize Logic Flow'}
                 </span>
               </button>
             </div>
           </div>
 
           <div className="glass-card-premium p-10 overflow-hidden relative group">
-            <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/5 blur-3xl -z-10 group-hover:bg-emerald-500/10 transition-all duration-700" />
+            <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/5 blur-3xl -z-10 group-hover:bg-emerald-500/10 transition-all duration-700 pointer-events-none" />
             <h3 className="text-[10px] font-black text-slate-500 uppercase tracking-[0.4em] mb-10 flex items-center gap-3">
                <div className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
                Real-time Graph
@@ -275,7 +291,8 @@ const ExecutionView = () => {
 
                   {/* Nodes */}
                   {(workflow?.steps || []).map((step, idx) => {
-                    const isActive = execution?.currentStepId === step.id;
+                    const isActive = execution?.currentStepId === step.id && execution?.status === 'IN_PROGRESS';
+                    const isWaiting = execution?.currentStepId === step.id && execution?.status === 'WAITING_FOR_APPROVAL';
                     const isCompleted = completedStepIds.includes(step.id);
                     
                     return (
@@ -286,6 +303,7 @@ const ExecutionView = () => {
                           r="20" 
                           className={`transition-all duration-700 fill-slate-950 stroke-2 ${
                             isActive ? 'stroke-indigo-500 shadow-[0_0_20px_rgba(99,102,241,0.5)]' : 
+                            isWaiting ? 'stroke-amber-500 shadow-[0_0_20px_rgba(245,158,11,0.5)]' :
                             isCompleted ? 'stroke-emerald-500 shadow-[0_0_15px_rgba(16,185,129,0.3)]' : 
                             'stroke-slate-800'
                           }`}
@@ -293,7 +311,7 @@ const ExecutionView = () => {
                         <foreignObject x="20" y={idx * 100 + 55} width="200" height="40">
                           <div className="text-center">
                              <p className={`text-[10px] font-black uppercase tracking-tighter truncate px-4 ${
-                               isActive ? 'text-indigo-400' : isCompleted ? 'text-emerald-400' : 'text-slate-600'
+                               isActive ? 'text-indigo-400' : isWaiting ? 'text-amber-400' : isCompleted ? 'text-emerald-400' : 'text-slate-600'
                              }`}>
                                {step.name}
                              </p>
@@ -304,7 +322,7 @@ const ExecutionView = () => {
                           y={idx * 100 + 34} 
                           textAnchor="middle" 
                           className={`text-[8px] font-black pointer-events-none ${
-                            isActive ? 'fill-indigo-400' : isCompleted ? 'fill-emerald-400' : 'fill-slate-700'
+                            isActive ? 'fill-indigo-400' : isWaiting ? 'fill-amber-400' : isCompleted ? 'fill-emerald-400' : 'fill-slate-700'
                           }`}
                         >
                           {idx + 1}
@@ -321,6 +339,18 @@ const ExecutionView = () => {
                             className="animate-spin-slow opacity-40"
                           />
                         )}
+                        {isWaiting && (
+                          <circle 
+                            cx="120" 
+                            cy={idx * 100 + 30} 
+                            r="28" 
+                            fill="none" 
+                            stroke="#f59e0b" 
+                            strokeWidth="1" 
+                            strokeDasharray="4 4" 
+                            className="animate-pulse opacity-80"
+                          />
+                        )}
                       </g>
                     );
                   })}
@@ -334,7 +364,7 @@ const ExecutionView = () => {
         <div className="lg:col-span-8 flex flex-col gap-8">
           <div className="glass-card-premium flex-1 min-h-[660px] flex flex-col overflow-hidden bg-slate-950/60 border-white/5 shadow-2xl">
             <div className="h-16 border-b border-white/5 bg-slate-950/80 flex items-center justify-between px-8 shrink-0 relative">
-               <div className="absolute inset-0 bg-indigo-600/5 pulse-glow" />
+               <div className="absolute inset-0 bg-indigo-600/5 pulse-glow pointer-events-none" />
                <div className="flex items-center gap-4 relative z-10">
                  <div className="w-8 h-8 rounded-lg bg-indigo-600/10 flex items-center justify-center border border-indigo-500/20 shadow-inner">
                    <Terminal size={16} className="text-indigo-400" />
@@ -344,8 +374,51 @@ const ExecutionView = () => {
                {execution && <span className="text-[10px] font-mono text-indigo-500/60 tracking-wider font-bold relative z-10 uppercase">EXEC_ID: {execution.id.split('-')[0]}...</span>}
             </div>
             
+            {execution?.status === 'WAITING_FOR_APPROVAL' && (
+              <div className="absolute inset-x-0 bottom-0 p-8 border-t border-amber-500/20 bg-slate-950/95 backdrop-blur-xl z-20 shadow-[0_-20px_50px_-10px_rgba(245,158,11,0.1)]">
+                <div className="space-y-6">
+                  <div className="flex items-center gap-4">
+                    <div className="w-10 h-10 rounded-xl bg-amber-500/10 flex items-center justify-center border border-amber-500/20">
+                      <Zap size={20} className="text-amber-500 animate-pulse" />
+                    </div>
+                    <div>
+                      <h4 className="text-sm font-black text-amber-500 uppercase tracking-widest">Manual Decision Required</h4>
+                      <p className="text-[10px] text-slate-400 font-bold uppercase tracking-wider mt-1">
+                        Node: <span className="text-slate-300">{getStepName(execution.currentStepId)}</span>
+                      </p>
+                    </div>
+                  </div>
+                  
+                  <textarea
+                    placeholder="Enter justification or reason for this decision..."
+                    className="w-full h-24 bg-slate-900/50 border border-amber-500/20 rounded-xl p-4 text-sm font-mono text-slate-300 focus:outline-none focus:border-amber-500/50 focus:ring-2 focus:ring-amber-500/10 transition-all resize-none"
+                    value={approvalReason}
+                    onChange={(e) => setApprovalReason(e.target.value)}
+                    disabled={submittingApproval}
+                  />
+                  
+                  <div className="flex items-center gap-4">
+                    <button
+                      onClick={() => handleApprovalAction(true)}
+                      disabled={submittingApproval}
+                      className="flex-1 py-4 bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/30 text-emerald-500 font-black text-xs uppercase tracking-widest rounded-xl transition-all disabled:opacity-50"
+                    >
+                      Approve Request
+                    </button>
+                    <button
+                      onClick={() => handleApprovalAction(false)}
+                      disabled={submittingApproval}
+                      className="flex-1 py-4 bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/30 text-rose-500 font-black text-xs uppercase tracking-widest rounded-xl transition-all disabled:opacity-50"
+                    >
+                      Reject Request
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
+
             <div 
-              className="flex-1 overflow-y-auto p-6 space-y-4 custom-scrollbar" 
+              className={`flex-1 overflow-y-auto p-6 space-y-4 custom-scrollbar ${execution?.status === 'WAITING_FOR_APPROVAL' ? 'pb-72' : ''}`} 
               ref={logContainerRef}
             >
               {logs.length === 0 ? (

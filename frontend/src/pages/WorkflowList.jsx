@@ -74,8 +74,8 @@ const WorkflowList = () => {
     <div className="animate-in space-y-16 max-w-7xl mx-auto px-8">
       {/* Hero / Stats Section */}
       <section className="relative">
-        <div className="absolute -top-24 -left-24 w-96 h-96 bg-indigo-600/10 blur-[120px] rounded-full pulse-glow" />
-        <div className="absolute -top-24 -right-24 w-96 h-96 bg-fuchsia-600/5 blur-[120px] rounded-full pulse-glow" style={{ animationDelay: '2s' }} />
+        <div className="absolute -top-24 -left-24 w-96 h-96 bg-indigo-600/10 blur-[120px] rounded-full pulse-glow pointer-events-none" />
+        <div className="absolute -top-24 -right-24 w-96 h-96 bg-fuchsia-600/5 blur-[120px] rounded-full pulse-glow pointer-events-none" style={{ animationDelay: '2s' }} />
         
         <div className="flex flex-col md:flex-row justify-between items-end gap-10 mb-16 relative z-10">
           <div className="space-y-4 max-w-2xl">

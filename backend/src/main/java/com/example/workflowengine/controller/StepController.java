@@ -4,6 +4,7 @@ import com.example.workflowengine.model.Rule;
 import com.example.workflowengine.model.Step;
 import com.example.workflowengine.repository.RuleRepository;
 import com.example.workflowengine.repository.StepRepository;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -47,7 +48,9 @@ public class StepController {
     }
 
     @DeleteMapping("/steps/{id}")
+    @Transactional
     public void deleteStep(@PathVariable UUID id) {
+        ruleRepository.deleteByStepId(id);
         stepRepository.deleteById(id);
     }
 

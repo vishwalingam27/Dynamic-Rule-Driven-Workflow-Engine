@@ -1,40 +1,524 @@
 {
-  "execution": {
-    "id": "6f9c2dd9-7136-474f-84c0-196c503a033f",
-    "workflowId": "a1dcdbbe-dc1c-4f8b-a3a8-764d82ebf143",
-    "workflowVersion": "1.0",
-    "status": "COMPLETED",
-    "data": "{\"loanAmount\": 600000, \"creditScore\": 800}",
-    "currentStepId": null,
-    "retries": 0,
-    "triggeredBy": "Test",
-    "startedAt": "2026-03-18T11:01:07.358941",
-    "endedAt": "2026-03-18T11:01:07.413026"
-  },
-  "logs": [
+  "executions": [
     {
-      "id": 362,
-      "executionId": "6f9c2dd9-7136-474f-84c0-196c503a033f",
-      "stepName": "Step1",
-      "stepType": "TASK",
-      "evaluatedRules": "Rule: creditScore > 750 -> true\n",
-      "selectedNextStep": "27acb067-70eb-4f00-8d1f-cb778a1bd697",
-      "status": "SUCCESS",
-      "errorMessage": null,
-      "startedAt": "2026-03-18T11:01:07.379716",
-      "endedAt": "2026-03-18T11:01:07.383974"
+      "id": "6f9c2dd9-7136-474f-84c0-196c503a033f",
+      "workflowId": "a1dcdbbe-dc1c-4f8b-a3a8-764d82ebf143",
+      "workflowVersion": "1.0",
+      "status": "COMPLETED",
+      "data": "{\"loanAmount\": 600000, \"creditScore\": 800}",
+      "currentStepId": null,
+      "retries": 0,
+      "triggeredBy": "Test",
+      "startedAt": "2026-03-18T11:01:07.358941",
+      "endedAt": "2026-03-18T11:01:07.413026"
     },
     {
-      "id": 363,
-      "executionId": "6f9c2dd9-7136-474f-84c0-196c503a033f",
-      "stepName": "Step2",
-      "stepType": "APPROVAL",
-      "evaluatedRules": "Rule: loanAmount < 500000 -> false\nRule: loanAmount >= 500000 -> true\n",
-      "selectedNextStep": null,
-      "status": "SUCCESS",
-      "errorMessage": null,
-      "startedAt": "2026-03-18T11:01:07.406591",
-      "endedAt": "2026-03-18T11:01:07.411491"
+      "id": "50c59d33-ad1b-40a9-bacf-d89929740891",
+      "workflowId": "245ab02a-9fdd-4007-a8bd-d061facacf59",
+      "workflowVersion": "1.0",
+      "status": "COMPLETED",
+      "data": "{\"loanAmount\": 600000, \"creditScore\": 800}",
+      "currentStepId": null,
+      "retries": 0,
+      "triggeredBy": "Test",
+      "startedAt": "2026-03-18T11:00:01.618618",
+      "endedAt": "2026-03-18T11:00:01.680127"
+    },
+    {
+      "id": "d7708adf-da05-40b2-99ba-7bbfcd3b1d42",
+      "workflowId": "dfd679c0-3208-4d21-b7de-6d2e5e300d4c",
+      "workflowVersion": "1.0",
+      "status": "COMPLETED",
+      "data": "{\"loanAmount\": 600000, \"creditScore\": 800}",
+      "currentStepId": null,
+      "retries": 0,
+      "triggeredBy": "Test",
+      "startedAt": "2026-03-18T10:54:12.01242",
+      "endedAt": "2026-03-18T10:54:12.062332"
+    },
+    {
+      "id": "d4bb0752-3b31-4de4-b64e-d7c73acc9125",
+      "workflowId": "8c0ea0ba-9433-4645-851f-b2ff50430dc9",
+      "workflowVersion": "1",
+      "status": "COMPLETED",
+      "data": "{\"day\": 4, \"reason\": \"vacation\", \"employeetime\": \"Fulltime\"}",
+      "currentStepId": null,
+      "retries": 0,
+      "triggeredBy": "User",
+      "startedAt": "2026-03-18T10:09:02.281672",
+      "endedAt": "2026-03-18T10:09:02.528021"
+    },
+    {
+      "id": "832e4ddb-39f7-41bb-aa29-ffc1fe5d46db",
+      "workflowId": "8c0ea0ba-9433-4645-851f-b2ff50430dc9",
+      "workflowVersion": "1",
+      "status": "COMPLETED",
+      "data": "{\"day\": 4, \"reason\": \"Fever\", \"employeetime\": \"Fulltime\"}",
+      "currentStepId": null,
+      "retries": 0,
+      "triggeredBy": "User",
+      "startedAt": "2026-03-18T10:08:46.613546",
+      "endedAt": "2026-03-18T10:08:46.806669"
+    },
+    {
+      "id": "6a9828f8-c970-452d-8c61-21bbf3b2f628",
+      "workflowId": "8c0ea0ba-9433-4645-851f-b2ff50430dc9",
+      "workflowVersion": "1",
+      "status": "COMPLETED",
+      "data": "{\"day\": 1, \"reason\": \"Fever\", \"employeetime\": \"Fulltime\"}",
+      "currentStepId": null,
+      "retries": 0,
+      "triggeredBy": "User",
+      "startedAt": "2026-03-18T10:08:31.723851",
+      "endedAt": "2026-03-18T10:08:32.035796"
+    },
+    {
+      "id": "34ba144f-5de7-4c92-a14d-da80adfa59da",
+      "workflowId": "33317d9e-7dd3-4637-b819-29ee3109023b",
+      "workflowVersion": "1.0",
+      "status": "COMPLETED",
+      "data": "{\"leave\": 8}",
+      "currentStepId": null,
+      "retries": 0,
+      "triggeredBy": "User",
+      "startedAt": "2026-03-17T23:54:53.868722",
+      "endedAt": "2026-03-17T23:54:53.920192"
+    },
+    {
+      "id": "4f82aaae-7f1b-4ed0-815c-5c48fd14c7be",
+      "workflowId": "33317d9e-7dd3-4637-b819-29ee3109023b",
+      "workflowVersion": "1.0",
+      "status": "COMPLETED",
+      "data": "{\"leave\": 5}",
+      "currentStepId": null,
+      "retries": 0,
+      "triggeredBy": "User",
+      "startedAt": "2026-03-17T23:54:42.699908",
+      "endedAt": "2026-03-17T23:54:42.735249"
+    },
+    {
+      "id": "1c6eb3e5-ad84-43ac-be87-12c656a9d08f",
+      "workflowId": "33317d9e-7dd3-4637-b819-29ee3109023b",
+      "workflowVersion": "1.0",
+      "status": "FAILED",
+      "data": "{\"leave\": 5}",
+      "currentStepId": null,
+      "retries": 0,
+      "triggeredBy": "User",
+      "startedAt": "2026-03-17T23:52:56.11296",
+      "endedAt": null
+    },
+    {
+      "id": "8397eefa-59f8-4737-b3ed-a2fc68231a5a",
+      "workflowId": "33317d9e-7dd3-4637-b819-29ee3109023b",
+      "workflowVersion": "1.0",
+      "status": "FAILED",
+      "data": "{\"leave\": 5}",
+      "currentStepId": null,
+      "retries": 0,
+      "triggeredBy": "User",
+      "startedAt": "2026-03-17T23:52:53.362518",
+      "endedAt": null
+    },
+    {
+      "id": "efdc49f7-7227-4941-98fc-9287e3674908",
+      "workflowId": "f3b8ef37-7bc1-4c7c-a54e-e6a854b57c11",
+      "workflowVersion": "1",
+      "status": "COMPLETED",
+      "data": "{\"amount\": 600, \"country\": \"US\", \"priority\": \"High\"}",
+      "currentStepId": null,
+      "retries": 0,
+      "triggeredBy": "User",
+      "startedAt": "2026-03-17T23:34:02.528903",
+      "endedAt": "2026-03-17T23:34:02.60349"
+    },
+    {
+      "id": "b74fad90-0ede-4282-b386-4bb9b088132f",
+      "workflowId": "3aca8140-45cb-4097-9a5c-2fb5e586ce27",
+      "workflowVersion": "1",
+      "status": "COMPLETED",
+      "data": "{\"reason\": \"Vacation\", \"leaveDays\": 4, \"employeeType\": \"FullTime\"}",
+      "currentStepId": null,
+      "retries": 0,
+      "triggeredBy": "User",
+      "startedAt": "2026-03-17T23:14:55.288323",
+      "endedAt": "2026-03-17T23:14:55.591829"
+    },
+    {
+      "id": "e34b6f6d-b3f6-45c9-b406-ac324598426b",
+      "workflowId": "f3b8ef37-7bc1-4c7c-a54e-e6a854b57c11",
+      "workflowVersion": "1",
+      "status": "COMPLETED",
+      "data": "{\"amount\": 500, \"country\": \"US\", \"priority\": \"High\"}",
+      "currentStepId": null,
+      "retries": 0,
+      "triggeredBy": "User",
+      "startedAt": "2026-03-17T23:08:05.872515",
+      "endedAt": "2026-03-17T23:08:06.079567"
+    },
+    {
+      "id": "ec5b6df8-7dad-4f1c-807e-ddf5bb0492cf",
+      "workflowId": "f3b8ef37-7bc1-4c7c-a54e-e6a854b57c11",
+      "workflowVersion": "1",
+      "status": "COMPLETED",
+      "data": "{\"amount\": 600, \"country\": \"US\", \"priority\": \"High\"}",
+      "currentStepId": null,
+      "retries": 0,
+      "triggeredBy": "User",
+      "startedAt": "2026-03-17T23:07:50.755861",
+      "endedAt": "2026-03-17T23:07:51.019552"
     }
+  ],
+  "logs": [
+    [
+      {
+        "id": 362,
+        "executionId": "6f9c2dd9-7136-474f-84c0-196c503a033f",
+        "stepName": "Step1",
+        "stepType": "TASK",
+        "evaluatedRules": "Rule: creditScore > 750 -> true\n",
+        "selectedNextStep": "27acb067-70eb-4f00-8d1f-cb778a1bd697",
+        "status": "SUCCESS",
+        "errorMessage": null,
+        "startedAt": "2026-03-18T11:01:07.379716",
+        "endedAt": "2026-03-18T11:01:07.383974"
+      },
+      {
+        "id": 363,
+        "executionId": "6f9c2dd9-7136-474f-84c0-196c503a033f",
+        "stepName": "Step2",
+        "stepType": "APPROVAL",
+        "evaluatedRules": "Rule: loanAmount < 500000 -> false\nRule: loanAmount >= 500000 -> true\n",
+        "selectedNextStep": null,
+        "status": "SUCCESS",
+        "errorMessage": null,
+        "startedAt": "2026-03-18T11:01:07.406591",
+        "endedAt": "2026-03-18T11:01:07.411491"
+      }
+    ],
+    [
+      {
+        "id": 360,
+        "executionId": "50c59d33-ad1b-40a9-bacf-d89929740891",
+        "stepName": "Step1",
+        "stepType": "TASK",
+        "evaluatedRules": "Rule: creditScore > 750 -> true\n",
+        "selectedNextStep": "6ab6c673-8cbf-406d-bf2e-efa4da08d099",
+        "status": "SUCCESS",
+        "errorMessage": null,
+        "startedAt": "2026-03-18T11:00:01.646766",
+        "endedAt": "2026-03-18T11:00:01.652183"
+      },
+      {
+        "id": 361,
+        "executionId": "50c59d33-ad1b-40a9-bacf-d89929740891",
+        "stepName": "Step2",
+        "stepType": "APPROVAL",
+        "evaluatedRules": "Rule: loanAmount < 500000 -> false\nRule: loanAmount >= 500000 -> true\n",
+        "selectedNextStep": null,
+        "status": "SUCCESS",
+        "errorMessage": null,
+        "startedAt": "2026-03-18T11:00:01.675409",
+        "endedAt": "2026-03-18T11:00:01.680127"
+      }
+    ],
+    [
+      {
+        "id": 358,
+        "executionId": "d7708adf-da05-40b2-99ba-7bbfcd3b1d42",
+        "stepName": "Step1",
+        "stepType": "TASK",
+        "evaluatedRules": "Rule: creditScore > 750 -> true\n",
+        "selectedNextStep": "43ed6969-e905-4d52-9be2-1e935d6e37b5",
+        "status": "SUCCESS",
+        "errorMessage": null,
+        "startedAt": "2026-03-18T10:54:12.029827",
+        "endedAt": "2026-03-18T10:54:12.029827"
+      },
+      {
+        "id": 359,
+        "executionId": "d7708adf-da05-40b2-99ba-7bbfcd3b1d42",
+        "stepName": "Step2",
+        "stepType": "APPROVAL",
+        "evaluatedRules": "Rule: loanAmount < 500000 -> false\nRule: loanAmount >= 500000 -> true\n",
+        "selectedNextStep": null,
+        "status": "SUCCESS",
+        "errorMessage": null,
+        "startedAt": "2026-03-18T10:54:12.056192",
+        "endedAt": "2026-03-18T10:54:12.059744"
+      }
+    ],
+    [
+      {
+        "id": 355,
+        "executionId": "d4bb0752-3b31-4de4-b64e-d7c73acc9125",
+        "stepName": "TL",
+        "stepType": "NOTIFICATION",
+        "evaluatedRules": "Rule: day <=2 -> false\nRule: day <=5 -> true\n",
+        "selectedNextStep": "e9c872f4-4f48-4cd1-b01d-63c0b93ca6a6",
+        "status": "SUCCESS",
+        "errorMessage": null,
+        "startedAt": "2026-03-18T10:09:02.433329",
+        "endedAt": "2026-03-18T10:09:02.441029"
+      },
+      {
+        "id": 356,
+        "executionId": "d4bb0752-3b31-4de4-b64e-d7c73acc9125",
+        "stepName": "manager",
+        "stepType": "NOTIFICATION",
+        "evaluatedRules": "Rule: reason == \"Fever\" -> false\nRule: reason == \"vacation\" -> true\n",
+        "selectedNextStep": "59571de3-a6c1-4480-982b-05e497b75c55",
+        "status": "SUCCESS",
+        "errorMessage": null,
+        "startedAt": "2026-03-18T10:09:02.480059",
+        "endedAt": "2026-03-18T10:09:02.487291"
+      },
+      {
+        "id": 357,
+        "executionId": "d4bb0752-3b31-4de4-b64e-d7c73acc9125",
+        "stepName": "CEO",
+        "stepType": "APPROVAL",
+        "evaluatedRules": "Rule:  -> true\n",
+        "selectedNextStep": null,
+        "status": "SUCCESS",
+        "errorMessage": null,
+        "startedAt": "2026-03-18T10:09:02.518965",
+        "endedAt": "2026-03-18T10:09:02.528021"
+      }
+    ],
+    [
+      {
+        "id": 353,
+        "executionId": "832e4ddb-39f7-41bb-aa29-ffc1fe5d46db",
+        "stepName": "TL",
+        "stepType": "NOTIFICATION",
+        "evaluatedRules": "Rule: day <=2 -> false\nRule: day <=5 -> true\n",
+        "selectedNextStep": "e9c872f4-4f48-4cd1-b01d-63c0b93ca6a6",
+        "status": "SUCCESS",
+        "errorMessage": null,
+        "startedAt": "2026-03-18T10:08:46.762212",
+        "endedAt": "2026-03-18T10:08:46.768877"
+      },
+      {
+        "id": 354,
+        "executionId": "832e4ddb-39f7-41bb-aa29-ffc1fe5d46db",
+        "stepName": "manager",
+        "stepType": "NOTIFICATION",
+        "evaluatedRules": "Rule: reason == \"Fever\" -> true\n",
+        "selectedNextStep": null,
+        "status": "SUCCESS",
+        "errorMessage": null,
+        "startedAt": "2026-03-18T10:08:46.798224",
+        "endedAt": "2026-03-18T10:08:46.806669"
+      }
+    ],
+    [
+      {
+        "id": 352,
+        "executionId": "6a9828f8-c970-452d-8c61-21bbf3b2f628",
+        "stepName": "TL",
+        "stepType": "NOTIFICATION",
+        "evaluatedRules": "Rule: day <=2 -> true\n",
+        "selectedNextStep": null,
+        "status": "SUCCESS",
+        "errorMessage": null,
+        "startedAt": "2026-03-18T10:08:31.892359",
+        "endedAt": "2026-03-18T10:08:32.022878"
+      }
+    ],
+    [
+      {
+        "id": 339,
+        "executionId": "34ba144f-5de7-4c92-a14d-da80adfa59da",
+        "stepName": "class Rep",
+        "stepType": "APPROVAL",
+        "evaluatedRules": "Rule: leave <=2 -> false\nRule: leave >2 -> true\n",
+        "selectedNextStep": "60a3bfc4-7289-4496-92a5-88e284f8ec3a",
+        "status": "SUCCESS",
+        "errorMessage": null,
+        "startedAt": "2026-03-17T23:54:53.881761",
+        "endedAt": "2026-03-17T23:54:53.883259"
+      },
+      {
+        "id": 340,
+        "executionId": "34ba144f-5de7-4c92-a14d-da80adfa59da",
+        "stepName": "Class Advisor",
+        "stepType": "APPROVAL",
+        "evaluatedRules": "Rule: leave < 5 -> false\nRule: leave >5 -> true\n",
+        "selectedNextStep": "899c2c02-f928-41e8-ac7c-a4c2be5691ae",
+        "status": "SUCCESS",
+        "errorMessage": null,
+        "startedAt": "2026-03-17T23:54:53.899459",
+        "endedAt": "2026-03-17T23:54:53.901721"
+      },
+      {
+        "id": 341,
+        "executionId": "34ba144f-5de7-4c92-a14d-da80adfa59da",
+        "stepName": "HOD",
+        "stepType": "APPROVAL",
+        "evaluatedRules": "Rule:  -> true\n",
+        "selectedNextStep": null,
+        "status": "SUCCESS",
+        "errorMessage": null,
+        "startedAt": "2026-03-17T23:54:53.918622",
+        "endedAt": "2026-03-17T23:54:53.920192"
+      }
+    ],
+    [
+      {
+        "id": 337,
+        "executionId": "4f82aaae-7f1b-4ed0-815c-5c48fd14c7be",
+        "stepName": "class Rep",
+        "stepType": "APPROVAL",
+        "evaluatedRules": "Rule: leave <=2 -> false\nRule: leave >2 -> true\n",
+        "selectedNextStep": "60a3bfc4-7289-4496-92a5-88e284f8ec3a",
+        "status": "SUCCESS",
+        "errorMessage": null,
+        "startedAt": "2026-03-17T23:54:42.718534",
+        "endedAt": "2026-03-17T23:54:42.719108"
+      },
+      {
+        "id": 338,
+        "executionId": "4f82aaae-7f1b-4ed0-815c-5c48fd14c7be",
+        "stepName": "Class Advisor",
+        "stepType": "APPROVAL",
+        "evaluatedRules": "Rule: leave < 5 -> false\nRule: leave >5 -> false\n",
+        "selectedNextStep": null,
+        "status": "SUCCESS",
+        "errorMessage": null,
+        "startedAt": "2026-03-17T23:54:42.732689",
+        "endedAt": "2026-03-17T23:54:42.735249"
+      }
+    ],
+    [],
+    [],
+    [
+      {
+        "id": 335,
+        "executionId": "efdc49f7-7227-4941-98fc-9287e3674908",
+        "stepName": "Manager Approval",
+        "stepType": "APPROVAL",
+        "evaluatedRules": "Rule: amount > 500 -> true\n",
+        "selectedNextStep": "c9305414-de13-4193-89c9-4f96ceeea833",
+        "status": "SUCCESS",
+        "errorMessage": null,
+        "startedAt": "2026-03-17T23:34:02.567053",
+        "endedAt": "2026-03-17T23:34:02.57417"
+      },
+      {
+        "id": 336,
+        "executionId": "efdc49f7-7227-4941-98fc-9287e3674908",
+        "stepName": "CEO Approval",
+        "stepType": "APPROVAL",
+        "evaluatedRules": "Rule: DEFAULT -> true\n",
+        "selectedNextStep": null,
+        "status": "SUCCESS",
+        "errorMessage": null,
+        "startedAt": "2026-03-17T23:34:02.600152",
+        "endedAt": "2026-03-17T23:34:02.60349"
+      }
+    ],
+    [
+      {
+        "id": 332,
+        "executionId": "b74fad90-0ede-4282-b386-4bb9b088132f",
+        "stepName": "Manager Approval",
+        "stepType": "APPROVAL",
+        "evaluatedRules": "Rule: leaveDays <= 2  -> false\nRule: leaveDays <= 5  -> true\n",
+        "selectedNextStep": "81d63c7b-5264-45ec-9b71-a8bccfd10428",
+        "status": "SUCCESS",
+        "errorMessage": null,
+        "startedAt": "2026-03-17T23:14:55.527216",
+        "endedAt": "2026-03-17T23:14:55.53283"
+      },
+      {
+        "id": 333,
+        "executionId": "b74fad90-0ede-4282-b386-4bb9b088132f",
+        "stepName": "HR Approval",
+        "stepType": "APPROVAL",
+        "evaluatedRules": "Rule: employeeType == \"Intern\" -> false\nRule: employeeType == \"FullTime\" -> true\n",
+        "selectedNextStep": "50c92dbd-33e6-4e59-a028-9c20e0242e98",
+        "status": "SUCCESS",
+        "errorMessage": null,
+        "startedAt": "2026-03-17T23:14:55.560484",
+        "endedAt": "2026-03-17T23:14:55.568046"
+      },
+      {
+        "id": 334,
+        "executionId": "b74fad90-0ede-4282-b386-4bb9b088132f",
+        "stepName": "Director Approval",
+        "stepType": "APPROVAL",
+        "evaluatedRules": "Rule: DEFAULT -> true\n",
+        "selectedNextStep": null,
+        "status": "SUCCESS",
+        "errorMessage": null,
+        "startedAt": "2026-03-17T23:14:55.587319",
+        "endedAt": "2026-03-17T23:14:55.590737"
+      }
+    ],
+    [
+      {
+        "id": 329,
+        "executionId": "e34b6f6d-b3f6-45c9-b406-ac324598426b",
+        "stepName": "Manager Approval",
+        "stepType": "APPROVAL",
+        "evaluatedRules": "Rule: amount > 500 -> false\nRule: amount > 100 -> true\n",
+        "selectedNextStep": "b36cc9d6-d101-4e88-94d5-1808e985a362",
+        "status": "SUCCESS",
+        "errorMessage": null,
+        "startedAt": "2026-03-17T23:08:06.005689",
+        "endedAt": "2026-03-17T23:08:06.013832"
+      },
+      {
+        "id": 330,
+        "executionId": "e34b6f6d-b3f6-45c9-b406-ac324598426b",
+        "stepName": "Finance Review",
+        "stepType": "TASK",
+        "evaluatedRules": "Rule: priority == \"High\" -> true\n",
+        "selectedNextStep": "c9305414-de13-4193-89c9-4f96ceeea833",
+        "status": "SUCCESS",
+        "errorMessage": null,
+        "startedAt": "2026-03-17T23:08:06.03691",
+        "endedAt": "2026-03-17T23:08:06.040884"
+      },
+      {
+        "id": 331,
+        "executionId": "e34b6f6d-b3f6-45c9-b406-ac324598426b",
+        "stepName": "CEO Approval",
+        "stepType": "APPROVAL",
+        "evaluatedRules": "Rule: DEFAULT -> true\n",
+        "selectedNextStep": null,
+        "status": "SUCCESS",
+        "errorMessage": null,
+        "startedAt": "2026-03-17T23:08:06.067424",
+        "endedAt": "2026-03-17T23:08:06.078849"
+      }
+    ],
+    [
+      {
+        "id": 327,
+        "executionId": "ec5b6df8-7dad-4f1c-807e-ddf5bb0492cf",
+        "stepName": "Manager Approval",
+        "stepType": "APPROVAL",
+        "evaluatedRules": "Rule: amount > 500 -> true\n",
+        "selectedNextStep": "c9305414-de13-4193-89c9-4f96ceeea833",
+        "status": "SUCCESS",
+        "errorMessage": null,
+        "startedAt": "2026-03-17T23:07:50.991044",
+        "endedAt": "2026-03-17T23:07:50.995767"
+      },
+      {
+        "id": 328,
+        "executionId": "ec5b6df8-7dad-4f1c-807e-ddf5bb0492cf",
+        "stepName": "CEO Approval",
+        "stepType": "APPROVAL",
+        "evaluatedRules": "Rule: DEFAULT -> true\n",
+        "selectedNextStep": null,
+        "status": "SUCCESS",
+        "errorMessage": null,
+        "startedAt": "2026-03-17T23:07:51.012902",
+        "endedAt": "2026-03-17T23:07:51.019552"
+      }
+    ]
   ]
 }

@@ -80,4 +80,23 @@ public class WorkflowExecutionService {
     public void markAsFailed(UUID executionId, String error) {
         stepExecutionService.markAsFailed(executionId, error);
     }
+
+    @Transactional
+    public void submitApprovalDecision(UUID executionId, boolean approved, String reason) {
+        stepExecutionService.submitApprovalDecision(executionId, approved, reason);
+        // After approval, try to execute the next steps automatically in a new thread
+        new Thread(() -> {
+            try {
+                executeStep(executionId);
+            } catch (Exception e) {
+                System.err.println("Fatal error during workflow execution post-approval: " + e.getMessage());
+                e.printStackTrace();
+                try {
+                    markAsFailed(executionId, "Internal Server Error: " + e.getMessage());
+                } catch (Exception ex) {
+                    System.err.println("Failed to mark execution as failed: " + ex.getMessage());
+                }
+            }
+        }).start();
+    }
 }

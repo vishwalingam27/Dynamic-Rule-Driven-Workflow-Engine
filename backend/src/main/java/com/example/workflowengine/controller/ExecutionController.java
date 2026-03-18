@@ -58,6 +58,18 @@ public class ExecutionController {
                 .orElseThrow(() -> new RuntimeException("Execution not found"));
     }
 
+    @PostMapping("/executions/{id}/approve")
+    public void approveExecution(@PathVariable UUID id, @RequestBody java.util.Map<String, String> payload) {
+        String reason = payload.get("reason");
+        executionService.submitApprovalDecision(id, true, reason);
+    }
+
+    @PostMapping("/executions/{id}/reject")
+    public void rejectExecution(@PathVariable UUID id, @RequestBody java.util.Map<String, String> payload) {
+        String reason = payload.get("reason");
+        executionService.submitApprovalDecision(id, false, reason);
+    }
+
     @GetMapping("/executions")
     public List<Execution> getAllExecutions() {
         List<Execution> executions = executionRepository.findAllByOrderByStartedAtDesc();

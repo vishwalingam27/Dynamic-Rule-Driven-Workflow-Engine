@@ -43,7 +43,7 @@ public class Execution {
     }
 
     public enum Status {
-        PENDING, IN_PROGRESS, COMPLETED, FAILED, CANCELED
+        PENDING, IN_PROGRESS, WAITING_FOR_APPROVAL, APPROVED, REJECTED, COMPLETED, FAILED, CANCELED
     }
 
     // Getters and Setters

@@ -8,4 +8,7 @@ import java.util.UUID;
 public interface ExecutionRepository extends JpaRepository<Execution, UUID> {
     List<Execution> findAllByOrderByStartedAtDesc();
     long countByStatus(Execution.Status status);
+    long countByStatusIn(List<Execution.Status> statuses);
+    List<Execution> findByWorkflowId(UUID workflowId);
+    void deleteByWorkflowId(UUID workflowId);
 }

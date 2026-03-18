@@ -97,7 +97,7 @@ const WorkflowEditor = () => {
   return (
     <div className="animate-in space-y-12 max-w-7xl mx-auto px-8">
       <header className="flex flex-col md:flex-row md:items-center justify-between gap-6 relative">
-        <div className="absolute -top-20 -left-20 w-64 h-64 bg-indigo-500/10 blur-[100px] -z-10 animate-pulse" />
+        <div className="absolute -top-20 -left-20 w-64 h-64 bg-indigo-500/10 blur-[100px] -z-10 animate-pulse pointer-events-none" />
         <div className="space-y-4">
           <div className="flex items-center gap-3 text-slate-500 text-[10px] font-black uppercase tracking-[0.3em]">
             <Link to="/" className="hover:text-indigo-400 transition-colors">Infrastructure</Link>
@@ -295,7 +295,7 @@ const WorkflowEditor = () => {
 
         <div className="lg:col-span-4 flex flex-col gap-6">
           <div className="glass-card-premium p-6 h-fit sticky top-28 overflow-hidden group">
-            <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-500/5 blur-3xl -z-10 group-hover:bg-indigo-500/10 transition-all duration-700" />
+            <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-500/5 blur-3xl -z-10 group-hover:bg-indigo-500/10 transition-all duration-700 pointer-events-none" />
             <h3 className="text-xs font-black text-slate-500 uppercase tracking-[0.3em] mb-8 flex items-center gap-3">
               <div className="w-2 h-2 rounded-full bg-indigo-500 animate-pulse" />
               Neural Architecture
