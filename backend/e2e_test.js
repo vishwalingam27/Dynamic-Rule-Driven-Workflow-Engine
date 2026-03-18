@@ -16,11 +16,9 @@ const request = (method, path, body = null) => {
             let data = '';
             res.on('data', chunk => data += chunk);
             res.on('end', () => {
-                if (data) {
-                    try { resolve(JSON.parse(data)); } catch(e) { resolve(data); }
-                } else {
-                    resolve(null);
-                }
+                let parsed = data;
+                try { parsed = JSON.parse(data); } catch(e) {}
+                resolve({ status: res.statusCode, data: parsed });
             });
         });
 
@@ -38,50 +36,58 @@ const delay = ms => new Promise(res => setTimeout(res, ms));
 async function runTest() {
     try {
         console.log("1. Creating Workflow...");
-        const wf = await request('POST', '/api/workflows', {
+        const wfRes = await request('POST', '/api/workflows', {
             name: "Automated Expense Approval",
             version: "1.0",
             isActive: true,
             inputSchema: JSON.stringify({ amount: 0 })
         });
-        const wfId = wf.id;
+        const wfId = wfRes.data.id;
         console.log("Workflow created:", wfId);
 
         console.log("2. Adding Steps...");
-        const step1 = await request('POST', `/api/steps/${wfId}`, { name: "Submit Expense", stepType: "TASK", stepOrder: 1, metadata: "{}" });
-        const step2 = await request('POST', `/api/steps/${wfId}`, { name: "Manager Review", stepType: "APPROVAL", stepOrder: 2, metadata: "{}" });
-        const step3 = await request('POST', `/api/steps/${wfId}`, { name: "Processed Note", stepType: "NOTIFICATION", stepOrder: 3, metadata: "{}" });
+        const step1Res = await request('POST', `/api/workflows/${wfId}/steps`, { name: "Submit Expense", stepType: "TASK", stepOrder: 1, metadata: "{}" });
+        const step2Res = await request('POST', `/api/workflows/${wfId}/steps`, { name: "Manager Review", stepType: "APPROVAL", stepOrder: 2, metadata: "{}" });
+        const step3Res = await request('POST', `/api/workflows/${wfId}/steps`, { name: "Processed Note", stepType: "NOTIFICATION", stepOrder: 3, metadata: "{}" });
+        const step1 = step1Res.data;
+        const step2 = step2Res.data;
+        const step3 = step3Res.data;
         
         console.log("3. Adding Rules...");
-        await request('POST', `/api/rules/${step1.id}`, { condition: "amount > 100", nextStepId: step2.id, priority: 1 });
-        await request('POST', `/api/rules/${step1.id}`, { condition: "DEFAULT", nextStepId: step3.id, priority: 2 });
-        await request('POST', `/api/rules/${step2.id}`, { condition: "DEFAULT", nextStepId: step3.id, priority: 1 });
+        await request('POST', `/api/steps/${step1.id}/rules`, { condition: "amount > 100", nextStepId: step2.id, priority: 1 });
+        await request('POST', `/api/steps/${step1.id}/rules`, { condition: "DEFAULT", nextStepId: step3.id, priority: 2 });
+        await request('POST', `/api/steps/${step2.id}/rules`, { condition: "DEFAULT", nextStepId: step3.id, priority: 1 });
 
         console.log("4. Updating Workflow Start Step...");
-        await request('PUT', `/api/workflows/${wfId}`, { ...wf, startStepId: step1.id });
-        const updatedWf = await request('GET', `/api/workflows/${wfId}`);
-        console.log("Workflow startStepId is:", updatedWf.startStepId);
+        await request('PUT', `/api/workflows/${wfId}`, { ...wfRes.data, startStepId: step1.id });
 
         console.log("5. Starting Execution...");
-        let exec = await request('POST', `/api/workflows/${wfId}/execute`, {
+        let execRes = await request('POST', `/api/workflows/${wfId}/execute`, {
             data: JSON.stringify({ amount: 500 }),
             triggeredBy: "API_TEST"
         });
-        const execId = exec.id;
-        console.log("Execution started:", execId, "Status:", exec.status);
+        
+        if (execRes.status !== 200) {
+            console.error("Execution start failed:", execRes);
+            return;
+        }
+        
+        const execId = execRes.data.id;
+        console.log("Execution started:", execId, "Status:", execRes.data.status);
 
         console.log("6. Waiting for approval state...");
         for (let i = 0; i < 5; i++) {
             await delay(1000);
-            exec = await request('GET', `/api/executions/${execId}`);
-            console.log("Status:", exec.status);
-            if (exec.status === "WAITING_FOR_APPROVAL") break;
+            execRes = await request('GET', `/api/executions/${execId}`);
+            console.log("Current DB Status:", execRes.data.status);
+            if (execRes.data.status === "WAITING_FOR_APPROVAL") break;
+            if (execRes.data.status === "FAILED") break;
         }
 
-        if (exec.status !== "WAITING_FOR_APPROVAL") {
-            const logs = await request('GET', `/api/executions/${execId}/logs`);
-            console.log("EXECUTION FAILED LOGS:", JSON.stringify(logs, null, 2));
-            throw new Error("Execution did not reach WAITING_FOR_APPROVAL status");
+        if (execRes.data.status !== "WAITING_FOR_APPROVAL") {
+            const logsRes = await request('GET', `/api/executions/${execId}/logs`);
+            require('fs').writeFileSync('e2e_logs.json', JSON.stringify(logsRes.data, null, 2), 'utf8');
+            throw new Error("Execution did not reach WAITING_FOR_APPROVAL status it is: " + execRes.data.status);
         }
 
         console.log("7. Approving Execution...");
@@ -89,25 +95,28 @@ async function runTest() {
 
         for (let i = 0; i < 5; i++) {
             await delay(1000);
-            exec = await request('GET', `/api/executions/${execId}`);
-            console.log("Status after approval:", exec.status);
-            if (exec.status === "COMPLETED") break;
+            execRes = await request('GET', `/api/executions/${execId}`);
+            console.log("Status after approval:", execRes.data.status);
+            if (execRes.data.status === "COMPLETED") break;
         }
 
-        if (exec.status !== "COMPLETED") {
-            throw new Error("Execution did not reach COMPLETED status");
+        if (execRes.data.status !== "COMPLETED") {
+            const logsRes = await request('GET', `/api/executions/${execId}/logs`);
+            console.log("LATE EXECUTION LOGS:", JSON.stringify(logsRes.data, null, 2));
+            throw new Error("Execution did not reach COMPLETED status it is: " + execRes.data.status);
         }
 
         console.log("8. Validating Logs...");
-        const logs = await request('GET', `/api/executions/${execId}/logs`);
-        console.log("Logs obtained:", logs.length);
-        logs.forEach(l => {
+        const logsRes = await request('GET', `/api/executions/${execId}/logs`);
+        console.log("Logs obtained:", logsRes.data.length);
+        logsRes.data.forEach(l => {
             console.log(` - [${l.startedAt}] Step: ${l.stepName} (${l.stepType}) -> Status: ${l.status}`);
         });
 
         console.log("✅ E2E Test Passed Successfully!");
     } catch (e) {
-        console.error("Test Failed:", e);
+        console.error("Test Failed:", e.message);
+        require('fs').writeFileSync('e2e_out.json', JSON.stringify({ error: e.message, data: e }, null, 2), 'utf8');
     }
 }
 

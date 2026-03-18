@@ -33,7 +33,7 @@ public class ExecutionController {
     }
 
     @PostMapping("/workflows/{workflowId}/execute")
-    public Execution executeWorkflow(@PathVariable UUID workflowId, @RequestBody ExecutionRequest request) {
+    public Execution executeWorkflow(@PathVariable("workflowId") UUID workflowId, @RequestBody ExecutionRequest request) {
         Execution execution = executionService.startExecution(workflowId, request.getData(), request.getTriggeredBy());
         // Execute asynchronously in a real app, but here we can do it synchronously for simplicity or use a separate thread
         new Thread(() -> {
@@ -53,19 +53,19 @@ public class ExecutionController {
     }
 
     @GetMapping("/executions/{id}")
-    public Execution getExecution(@PathVariable UUID id) {
+    public Execution getExecution(@PathVariable("id") UUID id) {
         return executionRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Execution not found"));
     }
 
     @PostMapping("/executions/{id}/approve")
-    public void approveExecution(@PathVariable UUID id, @RequestBody java.util.Map<String, String> payload) {
+    public void approveExecution(@PathVariable("id") UUID id, @RequestBody java.util.Map<String, String> payload) {
         String reason = payload.get("reason");
         executionService.submitApprovalDecision(id, true, reason);
     }
 
     @PostMapping("/executions/{id}/reject")
-    public void rejectExecution(@PathVariable UUID id, @RequestBody java.util.Map<String, String> payload) {
+    public void rejectExecution(@PathVariable("id") UUID id, @RequestBody java.util.Map<String, String> payload) {
         String reason = payload.get("reason");
         executionService.submitApprovalDecision(id, false, reason);
     }
@@ -78,7 +78,7 @@ public class ExecutionController {
     }
 
     @GetMapping("/executions/{executionId}/logs")
-    public List<ExecutionLog> getExecutionLogs(@PathVariable UUID executionId) {
+    public List<ExecutionLog> getExecutionLogs(@PathVariable("executionId") UUID executionId) {
         logger.info("Fetching logs for execution: {}", executionId);
         List<ExecutionLog> logs = executionLogRepository.findByExecutionIdOrderByStartedAtAsc(executionId);
         logger.info("Found {} logs for execution: {}", logs.size(), executionId);
@@ -105,7 +105,7 @@ public class ExecutionController {
 
     @DeleteMapping("/executions/{id}")
     @Transactional
-    public void deleteExecution(@PathVariable UUID id) {
+    public void deleteExecution(@PathVariable("id") UUID id) {
         logger.info("Deleting execution: {}", id);
         executionLogRepository.deleteByExecutionId(id);
         executionRepository.deleteById(id);

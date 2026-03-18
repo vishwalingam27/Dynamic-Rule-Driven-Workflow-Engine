@@ -24,18 +24,18 @@ public class StepController {
     }
 
     @PostMapping("/workflows/{workflowId}/steps")
-    public Step createStep(@PathVariable UUID workflowId, @RequestBody Step step) {
+    public Step createStep(@PathVariable("workflowId") UUID workflowId, @RequestBody Step step) {
         step.setWorkflowId(workflowId);
         return stepRepository.save(step);
     }
 
     @GetMapping("/workflows/{workflowId}/steps")
-    public List<Step> getSteps(@PathVariable UUID workflowId) {
+    public List<Step> getSteps(@PathVariable("workflowId") UUID workflowId) {
         return stepRepository.findByWorkflowIdOrderByStepOrder(workflowId);
     }
 
     @PutMapping("/steps/{id}")
-    public Step updateStep(@PathVariable UUID id, @RequestBody Step stepDetails) {
+    public Step updateStep(@PathVariable("id") UUID id, @RequestBody Step stepDetails) {
         Step step = stepRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Step not found"));
         
@@ -49,25 +49,25 @@ public class StepController {
 
     @DeleteMapping("/steps/{id}")
     @Transactional
-    public void deleteStep(@PathVariable UUID id) {
+    public void deleteStep(@PathVariable("id") UUID id) {
         ruleRepository.deleteByStepId(id);
         stepRepository.deleteById(id);
     }
 
     // Rule endpoints
     @PostMapping("/steps/{stepId}/rules")
-    public Rule createRule(@PathVariable UUID stepId, @RequestBody Rule rule) {
+    public Rule createRule(@PathVariable("stepId") UUID stepId, @RequestBody Rule rule) {
         rule.setStepId(stepId);
         return ruleRepository.save(rule);
     }
 
     @GetMapping("/steps/{stepId}/rules")
-    public List<Rule> getRules(@PathVariable UUID stepId) {
+    public List<Rule> getRules(@PathVariable("stepId") UUID stepId) {
         return ruleRepository.findByStepIdOrderByPriorityAsc(stepId);
     }
 
     @PutMapping("/rules/{id}")
-    public Rule updateRule(@PathVariable Long id, @RequestBody Rule ruleDetails) {
+    public Rule updateRule(@PathVariable("id") Long id, @RequestBody Rule ruleDetails) {
         Rule rule = ruleRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Rule not found"));
         
@@ -79,7 +79,7 @@ public class StepController {
     }
 
     @DeleteMapping("/rules/{id}")
-    public void deleteRule(@PathVariable Long id) {
+    public void deleteRule(@PathVariable("id") Long id) {
         ruleRepository.deleteById(id);
     }
 }

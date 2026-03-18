@@ -48,13 +48,13 @@ public class WorkflowController {
     }
 
     @GetMapping("/{id}")
-    public Workflow getWorkflow(@PathVariable UUID id) {
+    public Workflow getWorkflow(@PathVariable("id") UUID id) {
         return workflowRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Workflow not found"));
     }
 
     @PutMapping("/{id}")
-    public Workflow updateWorkflow(@PathVariable UUID id, @RequestBody Workflow workflowDetails) {
+    public Workflow updateWorkflow(@PathVariable("id") UUID id, @RequestBody Workflow workflowDetails) {
         Workflow workflow = workflowRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Workflow not found"));
         
@@ -69,7 +69,7 @@ public class WorkflowController {
 
     @DeleteMapping("/{id}")
     @Transactional
-    public void deleteWorkflow(@PathVariable UUID id) {
+    public void deleteWorkflow(@PathVariable("id") UUID id) {
         // Delete execution logs and executions
         List<Execution> executions = executionRepository.findByWorkflowId(id);
         for (Execution exec : executions) {

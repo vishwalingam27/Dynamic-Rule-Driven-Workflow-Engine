@@ -81,7 +81,6 @@ public class WorkflowExecutionService {
         stepExecutionService.markAsFailed(executionId, error);
     }
 
-    @Transactional
     public void submitApprovalDecision(UUID executionId, boolean approved, String reason) {
         stepExecutionService.submitApprovalDecision(executionId, approved, reason);
         // After approval, try to execute the next steps automatically in a new thread
