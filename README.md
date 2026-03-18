@@ -1,197 +1,183 @@
-# 🚀 Dynamic Rule-Driven Workflow Engine
+🚀 Dynamic Rule-Driven Workflow Engine
 
- DEMO VIDEO LINK:
- 
- https://drive.google.com/file/d/12rYCO5XDKfIoo0DfWZAaw6qJciCzXHiU/view?usp=sharing
+A full-stack application that allows users to create, manage, and execute workflows dynamically using rule-based logic.
+Instead of hardcoding business processes, workflows are controlled by configurable rules evaluated at runtime.
 
 
- 
-A full-stack web application that allows users to design, execute, and monitor workflows using dynamic rule-based logic.
+📌 Overview
 
----
+This project is a **Workflow Automation Engine** where users can:
 
-## 📌 Overview
+* Define workflows with multiple steps
+* Add conditions (rules) to control execution flow
+* Execute workflows using input data
+* Track execution status and logs in real time
 
-The **Dynamic Rule-Driven Workflow Engine** is a system that enables users to automate business processes by defining workflows, steps, and rules.
-Instead of hardcoding logic, workflows are dynamically controlled using conditions evaluated at runtime.
 
----
+ 🎯 Key Features
+ 🔹 Workflow Management
 
-## 🎯 Features
-
-### 🔹 Workflow Management
-
-* Create, update, and delete workflows
-* Define workflow input schema (JSON)
+* Create, edit, delete workflows
 * Version control support
+* Define input schema using JSON
+ 🔹 Step Types
 
-### 🔹 Step Management
+* **TASK** → Automated system action
+* **APPROVAL** → Requires user decision (Approve / Reject)
+* **NOTIFICATION** → Sends alerts or messages
 
-* Add multiple steps to a workflow
-* Supported step types:
+🔹 Rule Engine
 
-  * Task
-  * Approval
-  * Notification
+* Dynamic condition evaluation:
 
-### 🔹 Rule Engine
-
-* Define conditions using expressions:
-
-  * amount > 100
-  * priority == "High"
+  * `amount > 100`
+  * `priority == "High"`
 * Supports:
 
   * Comparison operators (`==`, `!=`, `>`, `<`, `>=`, `<=`)
   * Logical operators (`&&`, `||`)
-* Rule priority-based execution
-* DEFAULT fallback rule support
+* Priority-based rule execution
+* DEFAULT fallback rule
 
-### 🔹 Workflow Execution
+ 🔹 Workflow Execution
 
-* Execute workflows with dynamic input data
-* Automatic step-by-step navigation based on rules
-* Real-time execution status tracking
-
-### 🔹 Execution Logs
-
-* Track each step execution
-* View evaluated rules and results
-* Debug workflow behavior easily
-
-### 🔹 Dashboard (Control Center)
-
-* Monitor Active Flows (running workflows)
-* View Total Logic Steps
-* Manage deployed workflows
+* Start workflow with input JSON
+* Executes step-by-step dynamically
+* Automatically transitions based on rules
 
 ---
+ 🔹 Approval System
 
-## 🧠 How It Works
+* Pauses execution for approval steps
+* Provides:
 
-1. User creates a workflow
-2. Adds steps (Task / Approval / Notification)
-3. Defines rules for each step
-4. Runs the workflow with input JSON
-5. System evaluates rules dynamically
-6. Moves to the next step until completion
+  * ✅ Approve
+  * ❌ Reject + Reason
+* Resumes workflow after decision
 
-## 📊 Example
+ 🔹 Dashboard (Control Center)
 
-### Input
+* Active Flows (running workflows)
+* Total Engines (workflows created)
+* Total Logic Steps
+* Deployment & monitoring
+
+
+🔹 Execution Logs
+
+* Track each step
+* View evaluated rules
+* Debug workflow flow
+
+
+ 🧠 How It Works
+
+1. Create a workflow
+2. Add steps (Task / Approval / Notification)
+3. Define rules for each step
+4. Run workflow with input JSON
+5. System evaluates rules and moves to next step
+6. Continues until workflow completes
+
+
+ 📊 Example Workflow (Leave Approval)
+
+ Input
 
 json
 {
-  "amount": 200,
-  "country": "US",
-  "priority": "High"
+  "leaveDays": 3,
+  "employeeType": FullTime
 }
 
-### Execution Flow
+
+ Flow
 
 
-Manager Approval
-→ amount > 100 → true
-→ Finance Review
-→ priority == "High" → true
-→ CEO Approval
+Apply Leave
+→ Manager Approval
+→ Approved
+→ HR Notification
 → End Workflow
 
 
-## 🏗️ Tech Stack
-
-### Backend
+ 🏗️ Tech Stack
+ Backend
 
 * Java
 * Spring Boot
 * Spring Data JPA
-* MySQL / PostgreSQL
+* MySQL
 
-### Frontend
-
+ Frontend
 * React
 * Tailwind CSS
 * Axios
 
----
-
-## 📂 Project Structure
-
+ 📂 Project Structure
 
 backend/
 frontend/
 database/
-docs/
 
+ ▶️ Getting Started
 
+ 1️⃣ Clone Repository
 
-
-## ▶️ Getting Started
-
-### 1. Clone the Repository
-
-
-git clone [https://github.com/vishwalingam27/Dythub.com/vishwalingam27/Dynamic-Rule-Driven-Workflow-Engine.git]
+git clone https://github.com/vishwalingam27/Dynamic-Rule-Driven-Workflow-Engine.git
 cd Dynamic-Rule-Driven-Workflow-Engine
 
 
+ 2️⃣ Run Backend
 
-### 2. Run Backend
 
 cd backend
 mvn spring-boot:run
 
 
-
-
-### 3. Run Frontend
+ 3️⃣ Run Frontend
 
 cd frontend
 npm install
-npm start
+npm run dev
 
-### 4. Open Application
 
+ 4️⃣ Open App
 
 http://localhost:5173
 
 
-## 🧪 Usage
+ 🧪 Usage
 
-1. Create a workflow
-2. Add steps
-3. Define rules
-4. Deploy workflow
-5. Run with input JSON
-6. View execution logs
+1. Create a new workflow
+2. Add steps and rules
+3. Deploy workflow
+4. Run with input JSON
+5. Approve/Reject (if required)
+6. View logs and status
 
----
+ 🔥 Use Cases
 
-## 🔥 Use Cases
+* Expense Approval System
+* Loan Approval Workflow
+* Leave Management System
+* Insurance Claim Processing
+* Order Processing System
 
-* Expense Approval Systems
-* Loan Approval Workflows
-* Leave Management Systems
-* Order Processing Systems
-
-
-
-## 🚀 Future Enhancements
+🚀 Future Enhancements
 
 * Drag-and-drop workflow builder
-* Real-time monitoring (WebSocket)
+* Real-time updates (WebSocket)
 * Parallel workflow execution
-* Retry & error handling
-* Visual workflow diagrams
-
-
+* Retry & failure handling
+* Email/Slack notifications
 
 📖 License
 
-This project is for educational and demonstration purposes.
-
-
+This project is for learning and demonstration purposes.
 
 🙌 Author
+Developed as a full-stack project demonstrating dynamic workflow automation and rule engine design.
 
+🙌 Author
 Developed as a full-stack project demonstrating workflow automation and rule engine design.
